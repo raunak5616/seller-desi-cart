@@ -4,41 +4,43 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 const cardsData = [
     {
-        title: "Orders",
+        title: "Live Orders",
         image: "orders",
-        type: "adjective",
-        description: "well meaning and kindly.",
+        route: "/live-orders",
+        description: "Track live customer orders.",
         gradient: "linear-gradient(135deg, #22c55e 0%, #bbf7d0 100%)",
         textColor: "#064e3b",
     },
     {
-        title: "Upload products",
+        title: "Upload Products",
         image: "box",
-        type: "noun",
-        description: "the quality of being reliable and steady.",
+        route: "/upload-products",
+        description: "Add new products to your store.",
         gradient: "linear-gradient(135deg, #3b82f6 0%, #bfdbfe 100%)",
         textColor: "#1e3a8a",
     },
     {
         title: "Manage Products",
         image: "data_table",
-        type: "noun",
-        description: "the ability to recover quickly from difficulties.",
+        route: "/manage-products",
+        description: "Edit or remove existing products.",
         gradient: "linear-gradient(135deg, #8b5cf6 0%, #ddd6fe 100%)",
         textColor: "#312e81",
     },
     {
         title: "Bills",
         image: "request_page",
-        type: "noun",
-        description: "the process of becoming larger or more extensive.",
+        route: "/bills",
+        description: "View invoices and payments.",
         gradient: "linear-gradient(135deg, #06b6d4 0%, #93c5fd 100%)",
         textColor: "#0f172a",
     },
 ];
+
 
 const Bull = () => (
     <Box
@@ -50,12 +52,14 @@ const Bull = () => (
 );
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     return (
         <div className="flex flex-wrap mt-50 justify-center gap-5">
 
             {cardsData.map((card, index) => (
                 <Card
                     key={index}
+                    onClick={() => navigate(card.route)}
                     sx={{
                         minWidth: 275,
                         background: card.gradient,
@@ -74,7 +78,7 @@ const Dashboard = () => {
 
                     <CardContent>
                         <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-                            <span class="material-symbols-outlined">
+                            <span className="material-symbols-outlined">
                                 {card.image}
                             </span>
                         </Typography>
