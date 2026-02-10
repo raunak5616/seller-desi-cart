@@ -1,27 +1,77 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const UploadProduct = () => {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);          // File objects
+  const [imagePreviews, setImagePreviews] = useState([]); // Preview URLs
+
+  const [products, setProducts] = useState({
+    name: "",
+    category: "",
+    price: "",
+    discount: "",
+    stock: "",
+    description: ""
+  });
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+    setImages(files);
+
     const previews = files.map((file) => URL.createObjectURL(file));
-    setImages(previews);
+    setImagePreviews(previews);
+  };
+
+  const onProductChnage = (e) => {
+    setProducts({
+      ...products,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [imagePreviews]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    Object.entries(products).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    images.forEach((file) => {
+      formData.append("images", file);
+    });
+const PORT = import.meta.env.VITE_BACKEND_PORT
+    try {
+      console.log("SUBMIT CLICKED");
+      await axios.post(
+        `http://localhost:8080/api/products`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      alert("Product uploaded successfully");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="min-h-screen  flex items-center justify-center p-6">
-     <div className="bg-white w-full max-w-3xl rounded-2xl p-6
+      <div className="bg-white w-full max-w-3xl rounded-2xl p-6
                 shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
 
-        
-        {/* HEADER */}
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Upload New Product
         </h2>
 
         {/* FORM */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
 
           {/* PRODUCT NAME */}
           <div>
@@ -30,7 +80,9 @@ export const UploadProduct = () => {
             </label>
             <input
               type="text"
+              name="name"
               placeholder="Enter product name"
+              onChange={onProductChnage}
               className="w-full rounded-lg border border-gray-300 px-4 py-2
                          focus:ring-2 focus:ring-green-500 focus:outline-none"
             />
@@ -45,6 +97,8 @@ export const UploadProduct = () => {
               <select
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
                            focus:ring-2 focus:ring-green-500 focus:outline-none"
+                name="category"
+                onChange={onProductChnage}
               >
                 <option>Select category</option>
                 <option>Clothing</option>
@@ -60,6 +114,8 @@ export const UploadProduct = () => {
               </label>
               <input
                 type="number"
+                name="price"
+                onChange={onProductChnage}
                 placeholder="0"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
                            focus:ring-2 focus:ring-green-500 focus:outline-none"
@@ -75,6 +131,8 @@ export const UploadProduct = () => {
               </label>
               <input
                 type="number"
+                name="discount"
+                onChange={onProductChnage}
                 placeholder="0"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
                            focus:ring-2 focus:ring-green-500 focus:outline-none"
@@ -87,6 +145,8 @@ export const UploadProduct = () => {
               </label>
               <input
                 type="number"
+                name="stock"
+                onChange={onProductChnage}
                 placeholder="0"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
                            focus:ring-2 focus:ring-green-500 focus:outline-none"
@@ -101,6 +161,8 @@ export const UploadProduct = () => {
             </label>
             <textarea
               rows="4"
+              name="description"
+              onChange={onProductChnage}
               placeholder="Write product details..."
               className="w-full rounded-lg border border-gray-300 px-4 py-2
                          focus:ring-2 focus:ring-green-500 focus:outline-none"
@@ -126,9 +188,10 @@ export const UploadProduct = () => {
             />
 
             {/* IMAGE PREVIEW */}
-            {images.length > 0 && (
+            {/* IMAGE PREVIEW */}
+            {imagePreviews.length > 0 && (
               <div className="mt-4 grid grid-cols-3 gap-3">
-                {images.map((img, index) => (
+                {imagePreviews.map((img, index) => (
                   <img
                     key={index}
                     src={img}
@@ -138,6 +201,7 @@ export const UploadProduct = () => {
                 ))}
               </div>
             )}
+
           </div>
 
           {/* SUBMIT BUTTON */}
@@ -155,4 +219,4 @@ export const UploadProduct = () => {
       </div>
     </div>
   );
-};
+}
