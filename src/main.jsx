@@ -7,9 +7,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <SellerAuthProvider>
-    <ProtectedRoute>
+   
 
     <App />
-    </ProtectedRoute>
+  
   </SellerAuthProvider>
 );
