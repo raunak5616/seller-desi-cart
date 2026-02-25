@@ -21,6 +21,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Dashboard", href: "/dashboard" },
@@ -40,6 +41,7 @@ export default function Navbar() {
     bottom: false,
     right: false,
   });
+  const { isSellerAuth, logout } = useAuth();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -48,7 +50,6 @@ export default function Navbar() {
 
     setState({ ...state, [anchor]: open });
   };
-  const { isSellerAuth, logout } = useAuth();
 
   const drawerItems = isSellerAuth
     ? [
@@ -140,19 +141,18 @@ export default function Navbar() {
               </div>
 
               {/* DESKTOP LINKS */}
-              <div className="hidden sm:ml-8 sm:flex space-x-1">
-                {navigation.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => navigate(item.href)}
-                    className={classNames(
-                      "rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
-                    )}
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </div>
+             <div className="hidden sm:ml-8 sm:flex space-x-1">
+  {isSellerAuth &&
+    navigation.map((item) => (
+      <button
+        key={item.name}
+        onClick={() => navigate(item.href)}
+        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
+      >
+        {item.name}
+      </button>
+    ))}
+</div>
             </div>
 
             {/* RIGHT SIDE */}
@@ -177,18 +177,18 @@ export default function Navbar() {
           leaveTo="opacity-0 -translate-y-2"
         >
           <DisclosurePanel className="sm:hidden border-t border-gray-200">
-            <div className="space-y-1 px-3 py-3">
-              {navigation.map((item) => (
-                <DisclosureButton
-                  key={item.name}
-                  as="button"
-                  onClick={() => navigate(item.href)}
-                  className="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-gray-700 hover:bg-gray-100"
-                >
-                  {item.name}
-                </DisclosureButton>
-              ))}
-            </div>
+            <div className="hidden sm:ml-8 sm:flex space-x-1">
+  {isSellerAuth &&
+    navigation.map((item) => (
+      <button
+        key={item.name}
+        onClick={() => navigate(item.href)}
+        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
+      >
+        {item.name}
+      </button>
+    ))}
+</div>
           </DisclosurePanel>
         </Transition>
       </Disclosure>

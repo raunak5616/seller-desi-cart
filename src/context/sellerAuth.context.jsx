@@ -4,10 +4,9 @@ const SellerAuthContext = createContext(null);
 
 export const SellerAuthProvider = ({ children }) => {
   const [isSellerAuth, setIsSellerAuth] = useState(true);
-
-  useEffect(() => {
-
-    setIsSellerAuth(true);
+ useEffect(() => {
+    const token = localStorage.getItem("sellerToken");
+    setIsSellerAuth(!!token);
   }, []);
 
   const login = (token) => {
@@ -17,7 +16,7 @@ export const SellerAuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("sellerToken");
-    setIsSellerAuth(true);
+    setIsSellerAuth(false);
   };
 
   return (
