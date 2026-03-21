@@ -42,7 +42,7 @@ export const UploadProduct = () => {
 
     Object.entries(products).forEach(([key, value]) => {
       formData.append(key, value);
-    });
+    }); 
 
     images.forEach((file) => {
       formData.append("images", file);

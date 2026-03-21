@@ -23,10 +23,10 @@ import MailIcon from '@mui/icons-material/Mail';
 
 
 const navigation = [
-  { name: "Home", href: "/" },
   { name: "Dashboard", href: "/dashboard" },
   { name: "Products", href: "/products" },
   { name: "Orders", href: "/orders" },
+  { href: "/" },
 ];
 
 function classNames(...classes) {

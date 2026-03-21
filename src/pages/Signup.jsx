@@ -4,50 +4,51 @@ import axios from "axios";
 const Signup = () => {
   const navigate = useNavigate();
   const [showTnC, setShowTnC] = useState(false);
+  const [image, setimage] = useState(null);
   const [agreed, setAgreed] = useState(false);
-  const [password,setPassword]=useState("");
-  const [confirmPassword,setconfirmPassword]=useState("");
-  const [error,setError]=useState("");
-  const [formData, setFormData] = useState({
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
+  const [signUpData, setSignUpData] = useState({
     name: "",
+    shop: "",
     email: "",
     phone: "",
     password: "",
   });
   const onHandleChange = (e) => {
-   setFormData({
-    ...formData,
-    [e.target.name]:e.target.value,
-   })
+    setSignUpData({
+      ...signUpData,
+      [e.target.name]: e.target.value,
+    })
   };
- const handleSubmit = async (e) => {
-  e.preventDefault();
-
- if (password !== confirmPassword) {
-  setError("Passwords do not match");
-  alert("Passwords do not match");
-  return;
-}
-
-  setError("");
-  console.log("Form submitted successfully");
-  if(!error){
-   try{ 
-    const response = await axios.post(
-      "http://localhost:8080/api/products/signup",formData,
-      {
-        headers:{
-          "content-type" : "application/json"
-        }
-      }
-    );
-alert(response.data.message);
-navigate("/dashboard");
-}catch(err){
-console.log(err);
-}
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setimage(file);
+  };
+  if (password !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
   }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    Object.entries(signUpData).forEach(([key, value]) => {
+      formData.append(key, value);
+      formData.append("image", image);
+    })
+
+    console.log("Form submitted successfully");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/products/signup", formData,
+      );
+      alert(response.data.message);
+      navigate("/dashboard");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
@@ -72,6 +73,20 @@ console.log(err);
               type="text"
               name="name"
               placeholder="John Doe"
+              onChange={onHandleChange}
+              className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
+                         focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
+            />
+          </div>
+          {/* shop name */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Shop Name
+            </label>
+            <input
+              type="text"
+              name="shop"
+              placeholder="Shop Name"
               onChange={onHandleChange}
               className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
                          focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
@@ -112,18 +127,18 @@ console.log(err);
               Password
             </label>
             <input
-  type="password"
-  name="password"
-  placeholder="Create a strong password"
-  onChange={(e) => {
-    setPassword(e.target.value);
-    setFormData({
-      ...formData,
-      password: e.target.value,
-    });
-  }}
-  className="rounded-2xl border border-gray-300 px-4 py-3 text-sm"
-/>
+              type="password"
+              name="password"
+              placeholder="Create a strong password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setSignUpData({
+                  ...signUpData,
+                  password: e.target.value,
+                });
+              }}
+              className="rounded-2xl border border-gray-300 px-4 py-3 text-sm"
+            />
 
           </div>
 
@@ -140,7 +155,22 @@ console.log(err);
                          focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Shop Image
+            </label>
 
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="block w-full text-sm text-gray-600
+                         file:mr-4 file:py-2 file:px-4
+                         file:rounded-lg file:border-0
+                         file:bg-green-500 file:text-white
+                         hover:file:bg-green-600 cursor-pointer"
+            />
+          </div>
           {/* TERMS */}
           <div className="flex items-start gap-2 text-sm text-gray-600">
             <input
@@ -165,10 +195,9 @@ console.log(err);
             disabled={!agreed}
             onClick={handleSubmit}
             className={`mt-2 rounded-2xl py-3 text-white font-medium transition-all duration-200
-              ${
-                agreed
-                  ? "bg-black hover:scale-105 hover:bg-gray-900 active:scale-95"
-                  : "bg-gray-400 cursor-not-allowed"
+              ${agreed
+                ? "bg-black hover:scale-105 hover:bg-gray-900 active:scale-95"
+                : "bg-gray-400 cursor-not-allowed"
               }`}
           >
             Create Account
