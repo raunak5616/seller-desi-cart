@@ -10,7 +10,7 @@ const cardsData = [
     {
         title: "Live Orders",
         image: "orders",
-        route: "/live-orders",
+        route: "/orders",
         description: "Track live customer orders.",
         gradient: "linear-gradient(135deg, #22c55e 0%, #bbf7d0 100%)",
         textColor: "#064e3b",

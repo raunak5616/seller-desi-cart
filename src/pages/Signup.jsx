@@ -59,7 +59,7 @@ const Signup = () => {
           Create Account
         </h1>
         <p className="mb-6 text-center text-sm text-gray-500">
-          Join देशीCart and start shopping smarter
+          Join flowerKart and start shopping smarter
         </p>
 
         {/* FORM */}
@@ -76,7 +76,7 @@ const Signup = () => {
               placeholder="John Doe"
               onChange={onHandleChange}
               className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
-                         focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
+                         focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20"
             />
           </div>
           {/* shop name */}
@@ -90,7 +90,7 @@ const Signup = () => {
               placeholder="Shop Name"
               onChange={onHandleChange}
               className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
-                         focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
+                         focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20"
             />
           </div>
 
@@ -105,7 +105,7 @@ const Signup = () => {
               placeholder="you@example.com"
               onChange={onHandleChange}
               className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
-                         focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
+                         focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -118,7 +118,7 @@ const Signup = () => {
               placeholder="+123 456 7890"
               onChange={onHandleChange}
               className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
-                         focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
+                         focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20"
             />
           </div>
 
@@ -153,7 +153,7 @@ const Signup = () => {
               placeholder="Re-enter password"
               onChange={(e) => setconfirmPassword(e.target.value)}
               className="rounded-2xl border border-gray-300 px-4 py-3 text-sm
-                         focus:border-black focus:outline-none focus:ring-2 focus:ring-black/20"
+                         focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20"
             />
           </div>
           <div>
@@ -168,8 +168,8 @@ const Signup = () => {
               className="block w-full text-sm text-gray-600
                          file:mr-4 file:py-2 file:px-4
                          file:rounded-lg file:border-0
-                         file:bg-green-500 file:text-white
-                         hover:file:bg-green-600 cursor-pointer"
+                          file:bg-red-500 file:text-white
+                          hover:file:bg-red-600 cursor-pointer"
             />
           </div>
           {/* TERMS */}
@@ -184,7 +184,7 @@ const Signup = () => {
               I agree to the{" "}
               <span
                 onClick={() => setShowTnC(true)}
-                className="cursor-pointer font-medium text-black hover:underline"
+                className="cursor-pointer font-medium text-red-600 hover:underline"
               >
                 Terms & Conditions
               </span>
@@ -197,7 +197,7 @@ const Signup = () => {
             onClick={handleSubmit}
             className={`mt-2 rounded-2xl py-3 text-white font-medium transition-all duration-200
               ${agreed
-                ? "bg-black hover:scale-105 hover:bg-gray-900 active:scale-95"
+                ? "bg-red-gradient hover:scale-105 hover:opacity-90 active:scale-95"
                 : "bg-gray-400 cursor-not-allowed"
               }`}
           >
@@ -208,7 +208,7 @@ const Signup = () => {
           <p className="text-center text-sm text-gray-500">
             Already have an account?{" "}
             <span
-              className="cursor-pointer font-medium text-black hover:underline"
+              className="cursor-pointer font-medium text-red-600 hover:underline"
               onClick={() => navigate("/")}
             >
               Login
@@ -226,7 +226,7 @@ const Signup = () => {
 
               <div className="max-h-64 overflow-y-auto text-sm text-gray-600 space-y-3">
                 <p>
-                  By creating an account on देशीCart, you agree to the following:
+                  By creating an account on flowerKart, you agree to the following:
                 </p>
                 <p>
                   • You are responsible for maintaining account security.<br />

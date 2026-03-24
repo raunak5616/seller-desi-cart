@@ -4,29 +4,32 @@ import {
   DisclosurePanel,
   Transition,
 } from "@headlessui/react";
+import Drawer from "@mui/material/Drawer";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../context/sellerAuth.context";
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import StoreIcon from '@mui/icons-material/Store';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import InfoIcon from '@mui/icons-material/Info';
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Products", href: "/products" },
   { name: "Orders", href: "/orders" },
-  { href: "/" },
 ];
 
 function classNames(...classes) {
@@ -34,86 +37,94 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const anchor = "right";
   const [state, setState] = React.useState({
-    top: false,
     left: false,
-    bottom: false,
-    right: false,
   });
   const { isSellerAuth, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
-    setState({ ...state, [anchor]: open });
+    setState({ left: open });
   };
 
-  const drawerItems = isSellerAuth
-    ? [
-      { text: "Settings", icon: <InboxIcon />, path: "/settings" },
-      { text: "About", icon: <MailIcon />, path: "/about" },
-      { text: "Logout", icon: <MailIcon />, action: "logout" },
-    ]
-    : [
-      { text: "Login", icon: <InboxIcon />, path: "/" },
-      { text: "About", icon: <MailIcon />, path: "/about" },
-    ];
-  const list = (anchor) => (
+  const sellerManagementItems = [
+    { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
+    { text: "Product Catalog", icon: <StoreIcon />, path: "/products" },
+    { text: "Live Orders", icon: <LocalShippingIcon />, path: "/orders" },
+    { text: "Bills & Invoices", icon: <ReceiptIcon />, path: "/bills" },
+  ];
+
+  const toolsItems = [
+    { text: "Add New Product", icon: <AddCircleIcon className="text-red-500" />, path: "/upload-products" },
+    { text: "Manage Inventory", icon: <SettingsIcon />, path: "/manage-products" },
+  ];
+
+  const list = () => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: 280, height: '100%', display: 'flex', flexDirection: 'column' }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
+      <div className="p-8 bg-black text-white mb-4">
+        <h2 className="text-2xl font-black tracking-tighter italic">flowerKart</h2>
+        <p className="text-[10px] font-bold opacity-60 uppercase tracking-[0.2em] mt-1">Seller Terminal</p>
+      </div>
 
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {drawerItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton
-              onClick={() => {
-                if (item.action === "logout") {
-                  logout();
-                  navigate("/");
-                } else {
-                  navigate(item.path);
-                }
-              }}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+      <div className="flex-1 overflow-y-auto">
+        <List>
+          <p className="px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 mt-4">Main Navigation</p>
+          {sellerManagementItems.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton onClick={() => navigate(item.path)} sx={{ px: 3, py: 1.5 }}>
+                <ListItemIcon sx={{ minWidth: 40, color: '#374151' }}>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} primaryTypographyProps={{ fontSize: '14px', fontWeight: 600, color: '#374151' }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
 
-      </List>
+        <Divider sx={{ my: 2, mx: 3 }} />
+
+        <List>
+          <p className="px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Inventory Control</p>
+          {toolsItems.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton onClick={() => navigate(item.path)} sx={{ px: 3, py: 1.5 }}>
+                <ListItemIcon sx={{ minWidth: 40, color: '#374151' }}>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} primaryTypographyProps={{ fontSize: '14px', fontWeight: 600, color: '#374151' }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </div>
+
+      <div className="p-4 border-t border-gray-100 bg-gray-50/50">
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => { logout(); navigate("/"); }}
+            sx={{ p: 2, borderRadius: '16px', bgcolor: 'rgba(239, 68, 68, 0.08)', color: '#ef4444', '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.12)' } }}
+          >
+            <ListItemIcon sx={{ minWidth: 40, color: 'inherit' }}><LogoutIcon /></ListItemIcon>
+            <ListItemText primary="Terminate Session" primaryTypographyProps={{ fontSize: '14px', fontWeight: 800 }} />
+          </ListItemButton>
+        </ListItem>
+      </div>
     </Box>
   );
-  const navigate = useNavigate();
 
   return (
     <>
       <Drawer
-        anchor={anchor}
-        open={state[anchor]}
-        onClose={toggleDrawer(anchor, false)}
+        anchor="left"
+        open={state.left}
+        onClose={toggleDrawer(false)}
+        PaperProps={{ sx: { borderTopRightRadius: '32px', borderBottomRightRadius: '32px', overflow: 'hidden' } }}
       >
-        {list(anchor)}
+        {list()}
       </Drawer>
       <Disclosure as="nav" className="bg-white border-b border-gray-200">
         <div className="w-full px-4">
@@ -131,28 +142,27 @@ export default function Navbar() {
             <div className="flex flex-1 items-center justify-center sm:justify-start">
               <div className="flex items-center gap-2 text-xl font-semibold text-gray-900">
                 <button
-                  onClick={toggleDrawer(anchor, true)}
+                  onClick={toggleDrawer(true)}
                   className="rounded-md p-2 hover:bg-gray-100"
                 >
                   ☰
                 </button>
-                <span className="material-symbols-outlined">moped</span>
-                DesiCart Seller
+                flowerKart Seller
               </div>
 
               {/* DESKTOP LINKS */}
-             <div className="hidden sm:ml-8 sm:flex space-x-1">
-  {isSellerAuth &&
-    navigation.map((item) => (
-      <button
-        key={item.name}
-        onClick={() => navigate(item.href)}
-        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
-      >
-        {item.name}
-      </button>
-    ))}
-</div>
+              <div className="hidden sm:ml-8 sm:flex space-x-1">
+                {isSellerAuth &&
+                  navigation.map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => navigate(item.href)}
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+              </div>
             </div>
 
             {/* RIGHT SIDE */}
@@ -177,18 +187,21 @@ export default function Navbar() {
           leaveTo="opacity-0 -translate-y-2"
         >
           <DisclosurePanel className="sm:hidden border-t border-gray-200">
-            <div className="hidden sm:ml-8 sm:flex space-x-1">
-  {isSellerAuth &&
-    navigation.map((item) => (
-      <button
-        key={item.name}
-        onClick={() => navigate(item.href)}
-        className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
-      >
-        {item.name}
-      </button>
-    ))}
-</div>
+            <div className="px-2 pb-3 pt-2 space-y-1">
+              {isSellerAuth &&
+                navigation.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => {
+                      navigate(item.href);
+                      // Disclosure handles closing itself usually, or we could use close() from render props
+                    }}
+                    className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+            </div>
           </DisclosurePanel>
         </Transition>
       </Disclosure>

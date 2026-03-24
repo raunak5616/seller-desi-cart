@@ -85,7 +85,7 @@ export const UploadProduct = () => {
               placeholder="Enter product name"
               onChange={onProductChnage}
               className="w-full rounded-lg border border-gray-300 px-4 py-2
-                         focus:ring-2 focus:ring-green-500 focus:outline-none"
+                         focus:ring-2 focus:ring-red-500 focus:outline-none"
             />
           </div>
 
@@ -97,15 +97,19 @@ export const UploadProduct = () => {
               </label>
               <select
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
-                           focus:ring-2 focus:ring-green-500 focus:outline-none"
+                           focus:ring-2 focus:ring-red-500 focus:outline-none"
                 name="category"
                 onChange={onProductChnage}
               >
                 <option>Select category</option>
-                <option>Clothing</option>
-                <option>Electronics</option>
-                <option>Grocery</option>
-                <option>Accessories</option>
+                <option>Roses</option>
+                <option>Lilies</option>
+                <option>Sunflowers</option>
+                <option>Tulips</option>
+                <option>Orchids</option>
+                <option>Bouquets</option>
+                <option>Indoor Plants</option>
+                <option>Other Flowers</option>
               </select>
             </div>
 
@@ -119,7 +123,7 @@ export const UploadProduct = () => {
                 onChange={onProductChnage}
                 placeholder="0"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
-                           focus:ring-2 focus:ring-green-500 focus:outline-none"
+                           focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
           </div>
@@ -136,7 +140,7 @@ export const UploadProduct = () => {
                 onChange={onProductChnage}
                 placeholder="0"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
-                           focus:ring-2 focus:ring-green-500 focus:outline-none"
+                           focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
 
@@ -150,7 +154,7 @@ export const UploadProduct = () => {
                 onChange={onProductChnage}
                 placeholder="0"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2
-                           focus:ring-2 focus:ring-green-500 focus:outline-none"
+                           focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
           </div>
@@ -166,7 +170,7 @@ export const UploadProduct = () => {
               onChange={onProductChnage}
               placeholder="Write product details..."
               className="w-full rounded-lg border border-gray-300 px-4 py-2
-                         focus:ring-2 focus:ring-green-500 focus:outline-none"
+                         focus:ring-2 focus:ring-red-500 focus:outline-none"
             />
           </div>
 
@@ -184,8 +188,8 @@ export const UploadProduct = () => {
               className="block w-full text-sm text-gray-600
                          file:mr-4 file:py-2 file:px-4
                          file:rounded-lg file:border-0
-                         file:bg-green-500 file:text-white
-                         hover:file:bg-green-600 cursor-pointer"
+                         file:bg-red-500 file:text-white
+                         hover:file:bg-red-600 cursor-pointer"
             />
 
             {/* IMAGE PREVIEW */}
@@ -209,8 +213,8 @@ export const UploadProduct = () => {
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-3 rounded-lg
-                         hover:bg-green-700 transition font-medium"
+              className="w-full bg-red-gradient text-white py-3 rounded-lg
+                         hover:opacity-90 transition font-medium"
             >
               Upload Product
             </button>
