@@ -25,18 +25,19 @@ const Signup = () => {
     const file = e.target.files[0];
     setimage(file);
   };
-  if (password !== confirmPassword) {
-    alert("Passwords do not match");
-    return;
-  }
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     const formData = new FormData();
     Object.entries(signUpData).forEach(([key, value]) => {
       formData.append(key, value);
-      formData.append("image", image);
     })
-
+    if(image){
+    formData.append("images", image);
+    }
     console.log("Form submitted successfully");
 
     try {

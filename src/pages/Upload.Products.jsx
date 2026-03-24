@@ -36,18 +36,19 @@ export const UploadProduct = () => {
   }, [imagePreviews]);
 
   const handleSubmit = async (e) => {
+    const shopId = localStorage.getItem("shopId");
     e.preventDefault();
 
     const formData = new FormData();
 
     Object.entries(products).forEach(([key, value]) => {
       formData.append(key, value);
-    }); 
-
+    });
+    formData.append("shopId", shopId);
     images.forEach((file) => {
       formData.append("images", file);
     });
-const PORT = import.meta.env.VITE_BACKEND_PORT
+    const PORT = import.meta.env.VITE_BACKEND_PORT
     try {
       console.log("SUBMIT CLICKED");
       await axios.post(

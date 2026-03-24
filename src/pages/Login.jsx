@@ -29,6 +29,8 @@ const Login = () => {
         });
       alert(response.data.message);
       const token = response.data.token;
+      const shopId = response.data.id;
+      localStorage.setItem("shopId", shopId);
       login(token);
       navigate("/");
     } catch (error) {
